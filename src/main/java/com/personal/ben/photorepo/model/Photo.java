@@ -2,9 +2,13 @@ package com.personal.ben.photorepo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotEmpty;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "photos")
 public class Photo {
 
+    @Id
     private String id;
 
     @NotEmpty
@@ -12,7 +16,7 @@ public class Photo {
 
     private String contentType;
 
-    @JsonIgnore //when sending photo to front end data wont be converted or display
+    @JsonIgnore // when sending photo to front end data won't be converted or displayed
     private byte[] data;
 
     public Photo(){
@@ -22,6 +26,12 @@ public class Photo {
     public Photo(String id, String fileName) {
         this.id = id;
         this.fileName = fileName;
+    }
+
+    public Photo(String fileName, String contentType, byte[] data) {
+        this.fileName = fileName;
+        this.contentType = contentType;
+        this.data = data;
     }
 
     public String getId() {
@@ -54,5 +64,15 @@ public class Photo {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    @Override
+    public String toString() {
+        return "Photo{" +
+                "id='" + id + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", contentType='" + contentType + '\'' +
+                ", dataSize=" + (data != null ? data.length : 0) + " bytes" +
+                '}';
     }
 }
